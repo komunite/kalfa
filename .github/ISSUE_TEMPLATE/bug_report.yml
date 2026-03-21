@@ -1,0 +1,61 @@
+name: Bug Report
+description: Bir hata veya beklenmedik davranış bildirin
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hata raporunu doldurmadan önce mevcut issue'ları kontrol edin.
+
+  - type: input
+    id: component
+    attributes:
+      label: Etkilenen Bileşen
+      description: Hangi agent, komut, skill veya hook?
+      placeholder: "örn: auditor agent, /wrap-up komutu, PreToolUse hook"
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Beklenen Davranış
+      description: Ne olmasını bekliyordunuz?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Gerçekleşen Davranış
+      description: Ne oldu?
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Repro Adımları
+      description: Hatayı nasıl tekrarlarsınız?
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Claude Code Versiyonu
+      placeholder: "örn: 1.x.x"
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Ek Bağlam
+      description: Log çıktısı, ekran görüntüsü veya ilgili bilgi
+    validations:
+      required: false
