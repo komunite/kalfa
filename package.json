@@ -41,6 +41,8 @@
 		"node": ">=18"
 	},
 	"scripts": {
+		"kanban": "node kanban/server.js",
+		"kanban:dev": "node --watch kanban/server.js",
 		"cli": "node ./bin/kalfa.js",
 		"cli:help": "node ./bin/kalfa.js --help",
 		"pack:preview": "npm pack --dry-run",
@@ -61,6 +63,7 @@
 		"remark-preset-lint-recommended": "^7.0.1"
 	},
 	"dependencies": {
+		"express": "^4.21.0",
 		"figlet": "^1.11.0"
 	}
 }
