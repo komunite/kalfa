@@ -85,7 +85,7 @@ test("init copies starter files to target directory", async () => {
 	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
 });
 
-test("init appends missing gitignore entries without clobbering existing rules", async () => {
+test("init leaves an existing gitignore unchanged", async () => {
 	const targetDir = fs.mkdtempSync(path.join(os.tmpdir(), "kalfa-gitignore-existing-"));
 	const targetGitignore = path.join(targetDir, ".gitignore");
 	fs.writeFileSync(targetGitignore, "node_modules/\n.env\n");
@@ -95,7 +95,7 @@ test("init appends missing gitignore entries without clobbering existing rules",
 	const gitignore = fs.readFileSync(targetGitignore, "utf8");
 	assert.match(gitignore, /^node_modules\/$/m);
 	assert.match(gitignore, /^\.env$/m);
-	assert.match(gitignore, /^\.claude\/logs\/$/m);
+	assert.doesNotMatch(gitignore, /^\.claude\/logs\/$/m);
 });
 
 test("init does not duplicate gitignore entries on repeated runs", async () => {
@@ -115,7 +115,6 @@ test("init --force preserves existing gitignore rules", async () => {
 		targetGitignore,
 		[
 			"node_modules/",
-			".claude/logs/",
 			"custom-rule",
 			"",
 		].join("\n"),
@@ -126,9 +125,7 @@ test("init --force preserves existing gitignore rules", async () => {
 	const gitignore = fs.readFileSync(targetGitignore, "utf8");
 	assert.match(gitignore, /^node_modules\/$/m);
 	assert.match(gitignore, /^custom-rule$/m);
-	assert.match(gitignore, /^\.claude\/logs\/$/m);
-	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
-	assert.equal((gitignore.match(/^\.claude\/logs\/$/gm) || []).length, 1);
+	assert.doesNotMatch(gitignore, /^\.claude\/logs\/$/m);
 });
 
 test("init does not override existing unignore rules", async () => {
@@ -141,5 +138,5 @@ test("init does not override existing unignore rules", async () => {
 	const gitignore = fs.readFileSync(targetGitignore, "utf8");
 	assert.match(gitignore, /^!\.claude\/logs\/$/m);
 	assert.doesNotMatch(gitignore, /^\.claude\/logs\/$/m);
-	assert.match(gitignore, /^\.claude\/agent-memory\/$/m);
+	assert.doesNotMatch(gitignore, /^\.claude\/agent-memory\/$/m);
 });

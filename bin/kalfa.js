@@ -115,20 +115,11 @@ function normalizeContent(content) {
 	return content.replace(/\r\n/g, "\n");
 }
 
-function ensureTrailingNewline(content) {
-	if (content.length === 0) return "";
-	return content.endsWith("\n") ? content : `${content}\n`;
-}
-
 function readGitignoreEntries(sourcePath) {
 	return normalizeContent(fs.readFileSync(sourcePath, "utf8"))
 		.split("\n")
 		.map((line) => line.trim())
 		.filter((line) => line.length > 0);
-}
-
-function hasGitignoreRule(existingEntries, entry) {
-	return existingEntries.has(entry) || existingEntries.has(`!${entry}`);
 }
 
 function mergeGitignore(sourcePath, destinationPath, options, results) {
@@ -149,28 +140,7 @@ function mergeGitignore(sourcePath, destinationPath, options, results) {
 		}
 		return;
 	}
-
-	const existingContent = normalizeContent(fs.readFileSync(destinationPath, "utf8"));
-	const existingEntries = new Set(
-		existingContent
-			.split("\n")
-			.map((line) => line.trim())
-			.filter((line) => line.length > 0),
-	);
-	const missingEntries = desiredEntries.filter((entry) => !hasGitignoreRule(existingEntries, entry));
-
-	if (missingEntries.length === 0) {
-		results.skipped.push(destinationPath);
-		return;
-	}
-
-	results.copied.push(destinationPath);
-	if (!dryRun) {
-		const prefix = ensureTrailingNewline(existingContent.trimEnd());
-		const separator = prefix.length === 0 ? "" : "\n";
-		const nextContent = `${prefix}${separator}${missingEntries.join("\n")}\n`;
-		fs.writeFileSync(destinationPath, nextContent);
-	}
+	results.skipped.push(destinationPath);
 }
 
 function runInit(options) {
