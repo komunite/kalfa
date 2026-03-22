@@ -4,8 +4,6 @@ const fs = require("node:fs");
 const path = require("node:path");
 const figlet = require("figlet");
 
-const GITIGNORE_BLOCK_START = "# >>> Kalfa runtime artifacts >>>";
-const GITIGNORE_BLOCK_END = "# <<< Kalfa runtime artifacts <<<";
 const TEMPLATE_ITEMS = [
 	{ source: ".claude", destination: ".claude", strategy: "copy" },
 	{ source: "CLAUDE.md", destination: "CLAUDE.md", strategy: "copy" },
@@ -126,53 +124,11 @@ function readGitignoreEntries(sourcePath) {
 	return normalizeContent(fs.readFileSync(sourcePath, "utf8"))
 		.split("\n")
 		.map((line) => line.trim())
-		.filter((line) => line.length > 0 && !line.startsWith("#"));
-}
-
-function stripManagedGitignoreBlock(content) {
-	const normalized = normalizeContent(content);
-	const lines = normalized.split("\n");
-	const start = lines.indexOf(GITIGNORE_BLOCK_START);
-	const end = lines.indexOf(GITIGNORE_BLOCK_END);
-
-	if (start === -1 || end === -1 || end < start) {
-		return { content: normalized, hasBlock: false };
-	}
-
-	const nextLines = [...lines.slice(0, start), ...lines.slice(end + 1)];
-	return {
-		content: nextLines.join("\n").replace(/\n{3,}/g, "\n\n"),
-		hasBlock: true,
-	};
-}
-
-function buildGitignoreBlock(entries) {
-	if (entries.length === 0) return "";
-	return [
-		GITIGNORE_BLOCK_START,
-		...entries,
-		GITIGNORE_BLOCK_END,
-		"",
-	].join("\n");
-}
-
-function appendGitignoreBlock(content, entries) {
-	const normalized = ensureTrailingNewline(normalizeContent(content).trimEnd());
-	const block = buildGitignoreBlock(entries);
-
-	if (!block) {
-		return normalized;
-	}
-
-	if (!normalized) {
-		return block;
-	}
-
-	return `${normalized}\n${block}`;
+		.filter((line) => line.length > 0);
 }
 
 function mergeGitignore(sourcePath, destinationPath, options, results) {
-	const { force, dryRun } = options;
+	const { dryRun } = options;
 
 	if (!fs.existsSync(sourcePath)) {
 		results.missing.push(sourcePath);
@@ -185,36 +141,30 @@ function mergeGitignore(sourcePath, destinationPath, options, results) {
 	if (!destinationExists) {
 		results.copied.push(destinationPath);
 		if (!dryRun) {
-			fs.writeFileSync(destinationPath, buildGitignoreBlock(desiredEntries));
+			fs.writeFileSync(destinationPath, `${desiredEntries.join("\n")}\n`);
 		}
 		return;
 	}
 
 	const existingContent = normalizeContent(fs.readFileSync(destinationPath, "utf8"));
-	const { content: baseContent, hasBlock } = stripManagedGitignoreBlock(existingContent);
-
-	if (hasBlock && !force) {
-		results.skipped.push(destinationPath);
-		return;
-	}
-
 	const existingEntries = new Set(
-		baseContent
+		existingContent
 			.split("\n")
 			.map((line) => line.trim())
-			.filter((line) => line.length > 0 && !line.startsWith("#")),
+			.filter((line) => line.length > 0),
 	);
 	const missingEntries = desiredEntries.filter((entry) => !existingEntries.has(entry));
-	const nextContent = appendGitignoreBlock(baseContent, missingEntries);
-	const normalizedExisting = ensureTrailingNewline(existingContent.trimEnd());
 
-	if (nextContent === normalizedExisting) {
+	if (missingEntries.length === 0) {
 		results.skipped.push(destinationPath);
 		return;
 	}
 
 	results.copied.push(destinationPath);
 	if (!dryRun) {
+		const prefix = ensureTrailingNewline(existingContent.trimEnd());
+		const separator = prefix.length === 0 ? "" : "\n";
+		const nextContent = `${prefix}${separator}${missingEntries.join("\n")}\n`;
 		fs.writeFileSync(destinationPath, nextContent);
 	}
 }
