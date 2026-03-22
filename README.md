@@ -109,6 +109,9 @@ kalfa --help
 ### Gün içinde bağlamı sağlıklı tut
 
 1. Hızlı durum kontrolü gerektiğinde `/status` çalıştırın.
+   1. `/status` yalnızca git verisini okur; `memory.md`, görev panosu veya günlük not kullanmaz.
+   2. Bu yüzden en anlamlı çıktıyı bir git repo içinde verir.
+   3. Git repo dışında da çalıştırılabilir; bu durumda kısa fallback çıktısı verip komutu git repo içinde kullanmanızı söyler.
 2. Oturum ortasında `/sync` çalıştırın.
 3. Bağlam ağırlaştığında `/clear` kullanın.
    1. Oturum özeti günlük nota yazılır.

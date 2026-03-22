@@ -8,6 +8,8 @@ allowed-tools:
 
 Kısa, read-only durum özeti üret. Yalnızca git tabanlı veri kullan. Hiçbir dosyaya yazma.
 
+Bu komut git sinyallerinden deterministik bir snapshot üretir. Bu yüzden git repo içinde tam çalışır; git repo dışında çağrıldığında kurulum veya diğer komutlar bozulmaz, yalnızca sınırlı fallback çıktısı döner.
+
 ## Adımlar
 
 ### Adım 1: Git repo kontrolü
@@ -28,6 +30,12 @@ Git: unavailable
 Risk: none
 Sonraki: bu komutu bir git reposu içinde çalıştır
 ```
+
+Bu fallback bir hata yönetimi davranışıdır, kullanım engeli değildir:
+
+- `/status` için git verisi yoktur
+- `kalfa init` ve diğer komutlar yine kullanılabilir
+- kullanıcıya yalnızca bu komutun neden sınırlı çıktıya düştüğünü açıkça göster
 
 ### Adım 2: Git durumunu topla (paralel)
 
