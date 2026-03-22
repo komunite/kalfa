@@ -1,4 +1,4 @@
-![banner-kalfa](https://i.ibb.co/qMCNDX72/kalfa-banner.jpg)
+![banner-kalfa](https://github.com/user-attachments/assets/5bb0470b-69fd-443b-8710-a2dcb5037ed7)
 ## Kalfa
 
 Bu araç, Claude Code ile daha düzenli ve üretim kalitesinde çalışma yapmanıza yardımcı olur. Bunu hafıza katmanları, uzman agent'lar, tekrar kullanılabilir skill'ler, komut ritüelleri ve güvenlik hook'ları ile yapar; böylece farklı projelerde tutarlı çıktı alabilirsiniz.
