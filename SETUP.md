@@ -114,11 +114,11 @@ Lütfen şunları yap:
 
 **6 katmanlı hafıza** — Claude oturumlar arası bağlamı hatırlar, hatalardan öğrenir ve zamanla gelişir.
 
-**9 uzman agent** — Denetçi (kalite kapısı), Çözümleyici, Hata Tercümanı, Lastik Ördek, PR Yazarı, Kapsam Bekçisi, Borç Takipçisi, Keşif Rehberi, Arkeolog. Komutlar aracılığıyla otomatik çalışırlar.
+**10 uzman agent** — Denetçi (kalite kapısı), Çözümleyici, Hata Tercümanı, Lastik Ördek, PR Yazarı, Kapsam Bekçisi, Borç Takipçisi, Keşif Rehberi, Arkeolog ve Koç. Komutlar aracılığıyla otomatik çalışırlar.
 
-**21 komut** — `/start`, `/sync`, `/wrap-up`, `/clear`, `/audit`, `/onboard`, `/review`, `/retro`, `/launch`, `/report` ve dahası. Claude Code'a yazın, sistem gerisini halleder.
+**22 komut** — `/start`, `/sync`, `/wrap-up`, `/clear`, `/audit`, `/onboard`, `/review`, `/retro`, `/launch`, `/report` ve dahası. Claude Code'a yazın, sistem gerisini halleder.
 
-**16 kategoride 989 skill** — Yapay Zeka ve Otomasyon, İçerik, Danışmanlık, Müşteri Başarısı, Tasarım, Yazılım Geliştirme, E-ticaret, E-posta, Finans, Pazarlama, Ürün, Verimlilik, Satış, SEO, Sosyal Medya, Girişimcilik.
+**16 kategoride 994 skill** — Yapay Zeka ve Otomasyon, İçerik, Danışmanlık, Müşteri Başarısı, Tasarım, Yazılım Geliştirme, E-ticaret, E-posta, Finans, Pazarlama, Ürün, Verimlilik, Satış, SEO, Sosyal Medya, Girişimcilik.
 
 **9 otomatik kontrol** — Her seferinde çalışan deterministik güvenlik ağları: tehlikeli shell komutlarını engeller, üzerine yazmadan önce yedekler, eksik içeriği yakalar, her şeyi loglar.
 
