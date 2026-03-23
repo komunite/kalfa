@@ -37,6 +37,23 @@ Herhangi bir işlem yapmadan önce daima `.claude/memory.md` dosyasını oku.
   * `onboarding-sherpa` — Keşif Rehberi. Yeni codebase'leri hızlıca öğrenir. Mimari haritası, kritik dosya tespiti
   * `archaeologist` — Arkeolog. Kodun neden var olduğunu kazıp çıkarır. Git blame + bağlam yeniden inşası
   * `coach` — Koç. Çalışma kalıplarını analiz eder, kör noktaları tespit eder, proaktif öneriler sunar
+## Agent Delegasyon Kuralları
+
+Doğru agent'ı seçmek için aşağıdaki tabloyu kullan. Her agent'ın description'ında detaylı sınırlar ve `<example>` blokları mevcuttur.
+
+| Durum | Agent | Kullanılmaz |
+|-------|-------|-------------|
+| Spesifik hata mesajı veya stack trace analizi | `error-whisperer` | Genel tıkanıklık değil |
+| Denedim ama çözemiyorum, tıkandım | `unsticker` | Hata çözümlemesi değil |
+| Karar vermem gerekiyor, düşünmem lazım | `rubber-duck` | Uygulama aşaması değil |
+| Görevden saptım, konudan çıktım | `yak-shave-detector` | Planlı refactor değil |
+| Bu kod neden böyle yazılmış? | `archaeologist` | Projeyi tanımak değil |
+| Projeyi ilk kez görüyorum | `onboarding-sherpa` | Spesifik kod geçmişi değil |
+| PR açıklaması / commit mesajı yaz | `pr-ghostwriter` | Kod inceleme değil |
+| Teknik borç taraması yap | `debt-collector` | Otomatik düzeltme değil |
+| Haftalık performans değerlendirmesi | `coach` | Hata çözümleme değil |
+| Yapılan işin kalitesini doğrula | `auditor` | İş yapma değil |
+
 * **Komutlar** (`.claude/commands/`): İş akışı ritüelleri ve araçlar
 * **Hook'lar** (`.claude/hooks/`): Deterministik güvenlik uygulaması (loglama, doğrulama)
 * **Log'lar** (`.claude/logs/`): Denetim izi + olay kaydı — hook'lar tarafından otomatik doldurulur
@@ -95,6 +112,17 @@ Oturumların sınırlı bir bağlamı var. Ağır işlemler bağlamı hızla tü
 * Çıktı kalitesi düşerse (tekrar, atlanan detaylar): `/clear` çalıştır
 * Çok adımlı bir görev tamamlandığında: sonraki ilgisiz göreve geçmeden önce `/clear` düşün
 * Farklı görev alanları arasında geçiş yaparken: sınırı kabul et, ağır geçişler için `/clear` tercih et
+
+**`/clear` öncesi hafıza yazma garantisi (KESİN KURALLAR):**
+
+`/clear` çalıştırmadan önce aşağıdaki adımlar TAMAMLANMALIDIR. Bu kurallar isteğe bağlı değildir:
+
+1. **memory.md güncellendi mi?** → Oturumda yeni karar, öncelik veya bağlam değişikliği varsa memory.md'ye yaz. Değişiklik yoksa bu adımı atla ama bunu bilinçli bir karar olarak al.
+2. **Günlük nota devir yazıldı mı?** → `.claude/workspace/DailyNotes/AAGGYY.md` dosyasına oturum devri yazılmalı. Bu adım ASLA atlanamaz.
+3. **Öğrenimler aday gösterildi mi?** → Oturumda keşfedilen kurallar/gerçekler varsa `knowledge-nominations.md` veya `knowledge-base.md`'ye yazılmalı.
+4. **Doğrulama** → Yukarıdaki yazma işlemleri tamamlanmadan `/clear` komutu çalıştırılMAZ. Acil durum modunda bile en az günlük nota devir notu yazılmalıdır.
+
+⚠️ Bu adımları atlayarak `/clear` çalıştırmak bağlam kaybına neden olur ve oturum sürekliliğini bozar. "/clear çalıştırmam gerekiyor" düşüncesi hiçbir zaman hafıza yazma adımlarını atlamak için geçerli bir neden değildir.
 
 **`/clear` nasıl çalışır:** Oturum durumunu memory.md + günlük not devrine damıtır, erişim yollarını korur. Ardından sıkıştırılmış bağlamı yeniden yükleyerek ve bir sonraki eylemi uygulayarak otomatik olarak çalışmaya devam eder. Kullanıcı için kesintisiz.
 
