@@ -122,6 +122,8 @@ Oturumların sınırlı bir bağlamı var. Ağır işlemler bağlamı hızla tü
 3. **Öğrenimler aday gösterildi mi?** → Oturumda keşfedilen kurallar/gerçekler varsa `knowledge-nominations.md` veya `knowledge-base.md`'ye yazılmalı.
 4. **Doğrulama** → Yukarıdaki yazma işlemleri tamamlanmadan `/clear` komutu çalıştırılMAZ. Acil durum modunda bile en az günlük nota devir notu yazılmalıdır.
 
+**Uygulama mekanizması:** `/clear` komutu (`.claude/commands/clear.md`) Adım 0'da `pre-clear-check.sh` hook'unu çalıştırarak günlük nota oturum devrinin yazılmış olduğunu doğrular. Kontrol başarısız olursa `/clear` ilerlemez.
+
 ⚠️ Bu adımları atlayarak `/clear` çalıştırmak bağlam kaybına neden olur ve oturum sürekliliğini bozar. "/clear çalıştırmam gerekiyor" düşüncesi hiçbir zaman hafıza yazma adımlarını atlamak için geçerli bir neden değildir.
 
 **`/clear` nasıl çalışır:** Oturum durumunu memory.md + günlük not devrine damıtır, erişim yollarını korur. Ardından sıkıştırılmış bağlamı yeniden yükleyerek ve bir sonraki eylemi uygulayarak otomatik olarak çalışmaya devam eder. Kullanıcı için kesintisiz.

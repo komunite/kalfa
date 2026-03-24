@@ -5,7 +5,7 @@ allowed-tools:
   - Read
   - Edit
   - Write
-  - Bash(date:*)
+  - Bash
 ---
 
 Oturum durumunu kalıcı hale getir, ardından sorunsuz şekilde çalışmaya devam et. Kullanıcı bunun olduğunu fark etmemeli.
@@ -16,7 +16,17 @@ Oturum durumunu kalıcı hale getir, ardından sorunsuz şekilde çalışmaya de
 
 ## Adımlar
 
-### Adım 0: Kapıyı sıfırla + tarihi al
+### Adım 0: Ön doğrulama — oturum devri kontrolü
+
+Acil durum modu değilse, günlük nota oturum devrinin yazılmış olduğunu doğrula:
+
+```bash
+"$CLAUDE_PROJECT_DIR/.claude/hooks/pre-clear-check.sh"
+```
+
+Bu komut başarısız olursa (exit 1): DURMA. Önce Adım 3'ü (devir notunu günlük nota yaz) tamamla, sonra tekrar dene. Acil durum modunda bu adım atlanabilir — ancak Adım 3 yine de en kısa sürede yapılmalıdır.
+
+### Adım 0b: Kapıyı sıfırla + tarihi al
 
 ```bash
 date +"%m%d%y %H:%M" && rm -f ".claude/logs/.quality-gate-active" ".claude/logs/.session-blocks-$(date +"%m%d-%H")" ".claude/logs/.tool-call-count" ".claude/logs/.compaction-occurred"

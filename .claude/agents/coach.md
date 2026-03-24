@@ -10,7 +10,7 @@ tools:
   - Glob
   - Grep
   - Write
-  - Bash(date:*,wc:*,find:*)
+  - Bash
 model: sonnet
 memory: project
 maxTurns: 12
