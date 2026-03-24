@@ -18,13 +18,13 @@ Oturum durumunu kalıcı hale getir, ardından sorunsuz şekilde çalışmaya de
 
 ### Adım 0: Ön doğrulama — oturum devri kontrolü
 
-Acil durum modu değilse, günlük nota oturum devrinin yazılmış olduğunu doğrula:
+Günlük nota oturum devrinin yazılmış olduğunu doğrula. Acil durumda önce kısa bir devir notu yaz, sonra doğrulamayı çalıştır:
 
 ```bash
 "$CLAUDE_PROJECT_DIR/.claude/hooks/pre-clear-check.sh"
 ```
 
-Bu komut başarısız olursa (exit 1): DURMA. Önce Adım 3'ü (devir notunu günlük nota yaz) tamamla, sonra tekrar dene. Acil durum modunda bu adım atlanabilir — ancak Adım 3 yine de en kısa sürede yapılmalıdır.
+Bu komut başarısız olursa (exit 1): DUR. Önce Adım 3'ü (devir notunu günlük nota yaz) tamamla, sonra tekrar dene. Acil durumda da `/clear` öncesi en az kısa bir devir notu zorunludur.
 
 ### Adım 0b: Kapıyı sıfırla + tarihi al
 
