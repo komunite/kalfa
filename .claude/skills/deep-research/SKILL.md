@@ -98,14 +98,14 @@ Kullanıcı Girişi
 +-- Halihazırda net bir araştırma sorusu var mı?
 |   +-- Evet --> PRISMA uyumlu sistematik inceleme / meta-analiz gerekiyor mu?
 |   |           +-- Evet --> systematic-review modu
-|   |           +-- No --> Tam bir rapor gerekiyor mu?
+|   |           +-- Hayır --> Tam bir rapor gerekiyor mu?
 |   |                      +-- Evet --> full modu
 |   |                      +-- No --> Sadece literatür mü gerekiyor?
 |   |                                 +-- Evet --> lit-review modu
 |   |                                 +-- No --> quick modu
 |   +-- Hayır --> Düşünce sürecinde rehberlik edilmek mi istiyor?
 |              +-- Evet --> socratic modu
-|              +-- No --> full modu (Aşama 1 etkileşimli olacaktır)
+|              +-- Hayır --> full modu (Aşama 1 etkileşimli olacaktır)
 |
 +-- Halihazırda incelenecek bir metin mi var? --> review modu
 +-- Sadece doğruluk kontrolü mü gerekiyor? --> fact-check modu
