@@ -19,8 +19,8 @@ Production sunucularını kapsamlı güvenlik denetimine alın, zafiyetleri tesp
 
 ### Opsiyonel
 
-- **Uyumluluk Framework'ü**: cis-level1, cis-level2, pci-dss, hipaa
-- **Çıktı Formatı**: summary, json, score
+- **Uyumluluk Framework'ü**: `cis-level1`, `cis-level2`, `pci-dss`, `hipaa`
+- **Çıktı Formatı**: `summary`, `json`, `score`
 
 ## Süreç
 
@@ -47,13 +47,15 @@ Sonuçları 5 güvenlik alanına göre grupla:
 
 ### 3. Sertleştirme
 
-19 adımlı production hardening:
+19 adımlı production hardening (öne çıkanlar):
 
-- SSH key-only auth + fail2ban
-- UFW firewall + sysctl
-- auditd + AIDE bütünlük kontrolü
-- Docker daemon hardening
-- Unattended upgrades
+- SSH key-only auth + fail2ban + cipher blacklist
+- UFW firewall + sysctl hardening + login banners
+- auditd + AIDE bütünlük kontrolü + log retention
+- Docker daemon hardening (no-new-privileges, icc, log rotation)
+- Unattended upgrades + password quality + resource limits
+
+> 19 adımın tamamı: SSH, fail2ban, UFW, SSH ciphers, sysctl, unattended-upgrades, login banners, account locking, cloud metadata block, DNS security, APT validation, resource limits, service disabling, backup permissions, password quality, Docker hardening, auditd, log retention, AIDE.
 
 ### 4. Doğrulama
 
