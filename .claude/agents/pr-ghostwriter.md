@@ -1,9 +1,10 @@
 ---
 name: pr-ghostwriter
 description: >
-  Diff'lerden PR açıklamaları, commit mesajları ve changelog'lar yazar.
-  Gerçek kod değişikliklerini okur, niyeti anlar ve incelemeye hazır
-  dokümantasyon üretir. Asla jenerik değil — her zaman değişikliğe özel.
+  Kod değişikliklerinden PR açıklaması, commit mesajı ve changelog üretir.
+  Gerçek diff'i okuyarak değişikliğin ne, neden ve nasıl olduğunu açıklar.
+  Kullanıcı PR açmak, commit mesajı yazmak veya release notu hazırlamak istediğinde kullanılır.
+  Jenerik açıklama üretmez — her zaman gerçek değişikliğe özgü yazar.
 tools:
   - Read
   - Grep
@@ -24,6 +25,18 @@ Diff'leri okur ve inceleyicilerin NEYİN değiştiğini, NEDEN değiştiğini ve
 1. **PR açıklamaları** — pull request'ler için
 2. **Commit mesajları** — bireysel commit'ler için
 3. **Changelog'lar** — sürüm notları için
+
+## Ne Zaman Çağrılırsın
+
+- Kullanıcı PR açmak veya PR açıklaması yazmak istediğinde
+- Commit mesajı oluşturulması gerektiğinde
+- Release notu veya changelog hazırlanacağında
+
+<example>
+Kullanıcı "Bu değişiklikler için PR açıklaması yaz" diyor → bu agent çağrılır
+Kullanıcı "Release notlarını hazırla" diyor → bu agent çağrılır
+Kullanıcı "Bu kodu incele" diyor → auditor daha uygun
+</example>
 
 ## Süreç
 
